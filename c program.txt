@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Employee structure
+struct Employee {
+    char name[50];
+    int employeeId;
+    float salary;
+    char jobTitle[50];
+};
+
+// Function to add a new employee
+void addEmployee(struct Employee employees[], int* numEmployees) {
+    if (*numEmployees == 100) {
+        printf("Employee database is full. Cannot add more employees.\n");
+        return;
+    }
+
+    struct Employee newEmployee;
+
+    printf("Enter Employee ID: ");
+    scanf("%d", &newEmployee.employeeId);
+    printf("Enter Name: ");
+    scanf("%s", newEmployee.name);
+    printf("Enter Salary: ");
+    scanf("%f", &newEmployee.salary);
+    printf("Enter Job Title: ");
+    scanf("%s", newEmployee.jobTitle);
+
+    employees[*numEmployees] = newEmployee;
+    (*numEmployees)++;
+
+    printf("Employee added successfully!\n");
+}
+
+// Function to retrieve employee information
+void getEmployeeInfo(struct Employee employees[], int numEmployees) {
+    int employeeId;
+    printf("Enter Employee ID: ");
+    scanf("%d", &employeeId);
+
+    int i;
+    for (i = 0; i < numEmployees; i++) {
+        if (employees[i].employeeId == employeeId) {
+            printf("Employee ID: %d\n", employees[i].employeeId);
+            printf("Name: %s\n", employees[i].name);
+            printf("Salary: %.2f\n", employees[i].salary);
+            printf("Job Title: %s\n", employees[i].jobTitle);
+            return;
+        }
+    }
+
+    printf("Employee not found!\n");
+}
+
+// Function to update employee details
+void updateEmployee(struct Employee employees[], int numEmployees) {
+    int employeeId;
+    printf("Enter Employee ID: ");
+    scanf("%d", &employeeId);
+
+    int i;
+    for (i = 0; i < numEmployees; i++) {
+        if (employees[i].employeeId == employeeId) {
+            printf("Enter new Name: ");
+            scanf("%s", employees[i].name);
+            printf("Enter new Salary: ");
+            scanf("%f", &employees[i].salary);
+            printf("Enter new Job Title: ");
+            scanf("%s", employees[i].jobTitle);
+
+            printf("Employee details updated successfully!\n");
+            return;
+        }
+    }
+
+    printf("Employee not found!\n");
+}
+
+// Function to remove an employee
+void removeEmployee(struct Employee employees[], int* numEmployees) {
+    int employeeId;
+    printf("Enter Employee ID: ");
+    scanf("%d", &employeeId);
+
+    int i, found = 0;
+    for (i = 0; i < *numEmployees; i++) {
+        if (employees[i].employeeId == employeeId) {
+            found = 1;
+            break;
+        }
+    }
+
+    if (found) {
+        for (; i < *numEmployees - 1; i++) {
+            employees[i] = employees[i + 1];
+        }
+        (*numEmployees)--;
+        printf("Employee removed successfully!\n");
+    } else {
+        printf("Employee not found!\n");
+    }
+}
+
+int main() {
+    struct Employee employees[100];
+    int numEmployees = 0;
+    int choice;
+
+    while (1) {
+        printf("\n--- Employee Management System ---\n");
+        printf("1. Add New Employee\n");
+        printf("2. Retrieve Employee Information\n");
+        printf("3. Update Employee Details\n");
+        printf("4. Remove Employee\n");
